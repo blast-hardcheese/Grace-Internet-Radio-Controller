@@ -368,7 +368,7 @@ class CoherenceMenu(basic.LineReceiver):
 #### PAGER
         elif line == '' and self.queue:
             self.sendBuffered()
-        elif line == 'q':
+        elif line == 'x':
             self.queue = []
 
 #### LIST DEVICES
@@ -426,12 +426,38 @@ class CoherenceMenu(basic.LineReceiver):
                 NavigatorId=self.NavigatorId,
             )
             reactor.callLater(1, self.showCurrentStation)
+        elif line.startswith('h'):
+            self.sendLine('''Commands:
+  m: Get current menu
+  s number: Select new menu index to navigate to
+  r: Return to the last menu
+
+  v: Get current volume level
+  v number: Set the volume to number
+
+  c or return: Get current status
+
+  b: List bookmarks
+  b a name: Add bookmark named "name"
+  b l id: Load bookmark id
+  b l name: Load bookmrak named name
+
+  x: Clear scrollback buffer
+
+  d: List grace media devices on the network
+  d number: Select which grace media device to use
+
+  q: Quit
+''')
 #### MANHOLE
         elif line.startswith(' '):
             try:
                 self.sendLine(str(eval(line.strip())))
             except Exception,e:
                 self.sendLine('Syntax error: ' + str(e))
+        elif line.startswith('q'):
+            print "Quit"
+            reactor.stop()
 
 def main():
     o = CoherenceMenu()
