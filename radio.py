@@ -353,7 +353,7 @@ class CoherenceMenu(basic.LineReceiver):
             )
         elif line.startswith('s'):
             try:
-                sid = int(line[1:])-1
+                sid = int(line[1:].strip())-1
                 self.lastSelection = sid
                 self.performAction("SelectItemAndGetResponse",
                     NavigatorId=self.NavigatorId,
@@ -376,7 +376,7 @@ class CoherenceMenu(basic.LineReceiver):
 ## The user can also choose which device to talk to, via
 ## dN where N is a number (eg: d3 for the third device)
         elif line.startswith('d'):
-            dstr = line[1:]
+            dstr = line[1:].strip()
             if not dstr:
                 for i,d in zip(range(1, len(devices)+1),devices):
                     self.sendLine('%d: %s' % (i, str(d['name'])))
@@ -389,7 +389,7 @@ class CoherenceMenu(basic.LineReceiver):
 
 #### GET/SET VOLUME
         elif line.startswith('v'):
-            vol = line[1:]
+            vol = line[1:].strip()
             if not vol:
                 self.performAction('GetVolume')
             else:
@@ -405,10 +405,10 @@ class CoherenceMenu(basic.LineReceiver):
         elif line.startswith('b'):
             bline = line[1:].strip()
             if bline.startswith('a'):
-                bname = bline[1:]
+                bname = bline[1:].strip()
                 self.addBookmark(bname)
             elif bline.startswith('l'):
-                bkey = bline[1:]
+                bkey = bline[1:].strip()
                 self.loadBookmark(bkey)
             else:
                 self.renderBookmarkMenu()
