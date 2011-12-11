@@ -113,12 +113,8 @@ class CoherenceMenu(basic.LineReceiver):
         basic.LineReceiver.sendLine(self, *args, **kwargs)
 
     def bufferLine(self, s):
-        try:
-#            _s = str(unicode(s, errors='replace').replace(u'FFFD', '?'))
-            _s = s.encode(errors='replace')
-            self.queue.append(str(_s))
-        except:
-            print "ERROR: ", (s,)
+        _s = unicode(s).encode("utf-8")
+        self.queue.append(_s)
 
     def sendBuffered(self, num=20):
         num = min(len(self.queue), num)
