@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from util import load_config
+
 import warnings
 warnings.simplefilter("ignore") # Be quiet
 
@@ -25,6 +27,13 @@ BOOKMARKPATH = os.path.expanduser('~/.grace-bookmarks')
 
 devices = []
 unknown_devices = []
+
+CONFPATH = os.path.join(os.path.expanduser('~'), '.graceradiorc')
+DEFAULT_CONFIG = {
+    "buffer_rate": 20,
+}
+
+CONFIG = load_config(DEFAULT_CONFIG, CONFPATH)
 
 def add_device(device=None, *args, **kwargs):
     control = None
