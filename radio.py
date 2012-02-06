@@ -30,6 +30,7 @@ unknown_devices = []
 
 CONFPATH = os.path.join(os.path.expanduser('~'), '.graceradiorc')
 DEFAULT_CONFIG = {
+# Number of lines to output from the buffer every time enter is pressed
     "buffer_rate": 20,
 }
 
@@ -125,7 +126,9 @@ class CoherenceMenu(basic.LineReceiver):
         _s = unicode(s).encode("utf-8")
         self.queue.append(_s)
 
-    def sendBuffered(self, num=20):
+    def sendBuffered(self, num=None):
+        if num == None:
+            num = CONFIG['buffer_rate']
         num = min(len(self.queue), num)
         for i in xrange(num):
             s = self.queue[0]
