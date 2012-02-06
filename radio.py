@@ -264,8 +264,12 @@ class CoherenceMenu(basic.LineReceiver):
     def parseStateXML(self, xml):
         dom = etree.fromstring(xml)
         state = dom.xpath('//state')[0].text
-        title = dom.xpath('.//title')[0].text
-        id = dom.xpath('//station')[0].get('id')
+        try:
+            title = dom.xpath('.//title')[0].text
+            id = dom.xpath('//station')[0].get('id')
+        except IndexError:
+            title = 'No station'
+            id = 'No id'
 
         self.currentStation = {'type': 'station', 'id': id, 'name': title}
         self.currentState = state
